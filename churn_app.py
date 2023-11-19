@@ -1,3 +1,6 @@
+import subprocess
+subprocess.call(['pip', 'install', 'keras'])
+
 # churn_app.py
 import streamlit as st
 import pickle
