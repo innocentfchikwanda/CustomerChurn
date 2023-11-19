@@ -1,5 +1,5 @@
 import subprocess
-subprocess.call(['pip', 'install', 'keras'])
+subprocess.call(['pip', 'install', 'keras==2.15.0'])
 
 # churn_app.py
 import streamlit as st
