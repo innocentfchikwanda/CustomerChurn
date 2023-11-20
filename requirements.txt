@@ -3,6 +3,7 @@ streamlit-option-menu==0.3.2
 scikit-learn==1.0.1
 numpy==1.21.4
 pickle.mixin==1.0.1
+TensorFlow==2.7.0
 keras 
 matplotlib
 scikeras
