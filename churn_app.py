@@ -1,7 +1,6 @@
 import subprocess
-subprocess.call(['pip', 'install', 'keras==2.15.0', 'scikit-learn==0.24.0'])
+subprocess.call(['pip', 'install', 'keras==2.15.0', 'scikit-learn==1.3.2'])
 import sklearn
-
 
 from sklearn.preprocessing import LabelEncoder, StandardScaler
 label_encoder = LabelEncoder()
