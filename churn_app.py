@@ -1,5 +1,5 @@
 import subprocess
-subprocess.call(['pip', 'install', 'keras==2.15.0', 'sklearn'])
+subprocess.call(['pip', 'install', 'keras==2.15.0', 'scikit-learn'])
 import sklearn
 
 
