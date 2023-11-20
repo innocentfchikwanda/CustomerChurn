@@ -1,14 +1,18 @@
 import subprocess
 subprocess.call(['pip', 'install', 'keras==2.15.0'])
 
+from sklearn.preprocessing import LabelEncoder, StandardScaler
+label_encoder = LabelEncoder()
+
 # churn_app.py
 import streamlit as st
-import pickle
-import pandas as pd
+import joblib
 
-# Load the saved model
-with open('churn_model.pkl', 'rb') as model_file:
-    model = pickle.load(model_file)
+# Specify the path to your .joblib file
+model_filename = 'churn_model.joblib'
+
+# Load the model from the specified file
+model_y = joblib.load(model_filename)
 
 # Streamlit app
 def main():
@@ -26,6 +30,7 @@ def main():
     online_backup_options = ['No', 'Yes', 'No internet service']
     device_protection_options = ['No', 'Yes', 'No internet service']
     tech_support_options = ['No', 'Yes', 'No internet service']
+    senior_citizen_options = ["Yes", "No"]
     streaming_tv_options = ['No', 'No internet service', 'Yes']
     streaming_movies_options = ['No', 'Yes', 'No internet service']
     contract_options = ['Month-to-month', 'One year', 'Two year']
@@ -42,6 +47,7 @@ def main():
     online_backup = st.selectbox('Online Backup', online_backup_options)
     device_protection = st.selectbox('Device Protection', device_protection_options)
     tech_support = st.selectbox('Tech Support', tech_support_options)
+    senior_citizen = st.selectbox('SeniorCitizen', senior_citizen_options)
     streaming_tv = st.selectbox('Streaming TV', streaming_tv_options)
     streaming_movies = st.selectbox('Streaming Movies', streaming_movies_options)
     contract = st.selectbox('Contract', contract_options)
@@ -65,6 +71,7 @@ def main():
         'OnlineBackup': online_backup,
         'DeviceProtection': device_protection,
         'TechSupport': tech_support,
+        'SeniorCitizen': senior_citizen,
         'StreamingTV': streaming_tv,
         'StreamingMovies': streaming_movies,
         'Contract': contract,
@@ -74,18 +81,26 @@ def main():
         'TotalCharges': total_charges,
         'tenure': tenure,
     }
+
     input_df = pd.DataFrame([user_input])
-    numeric = input_df["MonthlyCharges"]
-    numeric["TotalCharges"] = input_df["TotalCharges"]
+    
+    numeric = input_df.iloc[:,17:19]
     numeric["tenure"] = input_df["tenure"]
-    non_numeric = input_df.drop(["MonthlyCharges", "TotalCharges", "tenure"], axis = 1)
-    cat_cols = non_numeric.select_dtypes(include=['object']).columns
-    non_numeric = pd.get_dummies(non_numeric, columns=cat_cols)
+    non_numeric = input_df.drop(["tenure", "MonthlyCharges", "TotalCharges"], axis = 1)
+    
+    for column in non_numeric.columns:
+        if non_numeric[column].dtype == 'object':  # Check if the column is of object type (categorical)
+            non_numeric[column] = label_encoder.fit_transform(non_numeric[column])
+        
+    non_numeric = non_numeric.drop(["StreamingTV", "StreamingMovies", "PhoneService"], axis=1)
     
     x = pd.concat([non_numeric, numeric], axis=1)
+    print(x.shape)
 
+    x.head(2)
     # Make predictions
-    prediction = model.predict(x)
+    prediction = model_y.predict(x)
+
 
     # Display the prediction
     st.write("Churn Prediction:")
