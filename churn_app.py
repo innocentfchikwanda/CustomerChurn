@@ -14,8 +14,10 @@ subprocess.run(['pip', 'install', 'keras==2.15.0', 'scikit-learn==1.3.2', 'tenso
 # Specify the path to your .joblib file
 model_filename = 'churn_model.joblib'
 
-# Load the model from the specified file
-model_y = joblib.load(model_filename)
+load_options.experimental_io_device = '/job:localhost'
+
+# Load the model
+model = tf.keras.models.load_model('churn_model.joblib', options=load_options)
 
 # Streamlit app
 def main():
