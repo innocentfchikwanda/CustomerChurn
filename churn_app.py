@@ -9,7 +9,7 @@ import joblib
 subprocess.run(['pip', 'install', '--upgrade', 'pip'])
 
 # Install required packages
-subprocess.run(['pip', 'install', 'keras==2.15.0', 'scikit-learn==1.3.2', 'tensorflow==2.7.0'])
+subprocess.run(['pip', 'install', 'keras==2.15.0', 'scikit-learn==1.3.2', 'tensorflow==2.14.0'])
 
 # Specify the path to your .joblib file
 model_filename = 'churn_model.joblib'
