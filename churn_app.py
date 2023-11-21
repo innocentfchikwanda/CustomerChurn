@@ -1,19 +1,15 @@
 import subprocess
-subprocess.call(['pip', 'install', 'keras==2.15.0', 'scikit-learn==1.3.2'])
-update_pip = "pip install --upgrade pip"
-subprocess.run(update_pip, shell=True)
-
-update_tf_command = "pip install --upgrade tensorflow==2.7.0"
-set_io_device_command = "churn_app.py"
-subprocess.run(update_tf_command, shell=True)
-subprocess.run(set_io_device_command, shell=True)
-
-# churn_app.py
+import pandas as pd
+import numpy as np
 import streamlit as st
 import sklearn
 import joblib
-from sklearn.preprocessing import LabelEncoder, StandardScaler
-label_encoder = LabelEncoder()
+
+# Update pip
+subprocess.run(['pip', 'install', '--upgrade', 'pip'])
+
+# Install required packages
+subprocess.run(['pip', 'install', 'keras==2.15.0', 'scikit-learn==1.3.2', 'tensorflow==2.7.0'])
 
 # Specify the path to your .joblib file
 model_filename = 'churn_model.joblib'
@@ -107,7 +103,6 @@ def main():
     x.head(2)
     # Make predictions
     prediction = model_y.predict(x)
-
 
     # Display the prediction
     st.write("Churn Prediction:")
