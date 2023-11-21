@@ -1,6 +1,12 @@
 import subprocess
 subprocess.call(['pip', 'install', 'keras==2.15.0', 'scikit-learn==1.3.2'])
 import sklearn
+import streamlit as st
+
+update_tf_command = "pip install --upgrade tensorflow"
+set_io_device_command = "your_python_script.py"
+subprocess.run(update_tf_command, shell=True)
+subprocess.run(set_io_device_command, shell=True)
 
 from sklearn.preprocessing import LabelEncoder, StandardScaler
 label_encoder = LabelEncoder()
