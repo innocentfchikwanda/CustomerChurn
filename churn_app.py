@@ -14,10 +14,14 @@ subprocess.run(['pip', 'install', 'keras==2.15.0', 'scikit-learn==1.3.2', 'tenso
 # Specify the path to your .joblib file
 model_filename = 'churn_model.joblib'
 
-load_options.experimental_io_device = '/job:localhost'
+# Specify the path to your .joblib file
+model_filename = 'churn_model.joblib'
 
-# Load the model
-model = tf.keras.models.load_model('churn_model.joblib', options=load_options)
+# Load the model from the specified file
+model_y = joblib.load(model_filename)
+
+from sklearn.preprocessing import LabelEncoder, StandardScaler
+label_encoder = LabelEncoder()
 
 # Streamlit app
 def main():
@@ -90,8 +94,9 @@ def main():
     input_df = pd.DataFrame([user_input])
     
     numeric = input_df.iloc[:,17:19]
-    numeric["tenure"] = input_df["tenure"]
-    non_numeric = input_df.drop(["tenure", "MonthlyCharges", "TotalCharges"], axis = 1)
+    numeric = pd.DataFrame(numeric)
+    numeric["tenure"] = input_df.iloc[:,18:]
+    non_numeric = customers.drop(["tenure", "MonthlyCharges", "TotalCharges"], axis = 1)
     
     for column in non_numeric.columns:
         if non_numeric[column].dtype == 'object':  # Check if the column is of object type (categorical)
@@ -106,9 +111,11 @@ def main():
     # Make predictions
     prediction = model_y.predict(x)
 
+
     # Display the prediction
     st.write("Churn Prediction:")
     st.write(prediction)
+
 
 if __name__ == '__main__':
     main()
