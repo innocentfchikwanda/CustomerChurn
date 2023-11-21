@@ -1,19 +1,19 @@
 import subprocess
 subprocess.call(['pip', 'install', 'keras==2.15.0', 'scikit-learn==1.3.2'])
-import sklearn
-import streamlit as st
+update_pip = "pip install --upgrade pip"
+subprocess.run(update_pip, shell=True)
 
-update_tf_command = "pip install --upgrade tensorflow"
-set_io_device_command = "your_python_script.py"
+update_tf_command = "pip install --upgrade tensorflow==2.7.0"
+set_io_device_command = "churn_app.py"
 subprocess.run(update_tf_command, shell=True)
 subprocess.run(set_io_device_command, shell=True)
 
-from sklearn.preprocessing import LabelEncoder, StandardScaler
-label_encoder = LabelEncoder()
-
 # churn_app.py
 import streamlit as st
+import sklearn
 import joblib
+from sklearn.preprocessing import LabelEncoder, StandardScaler
+label_encoder = LabelEncoder()
 
 # Specify the path to your .joblib file
 model_filename = 'churn_model.joblib'
