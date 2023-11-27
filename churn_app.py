@@ -1,5 +1,5 @@
 # Update pip
-subprocess.run(['pip', 'install', '--upgrade', 'pip'])
+subprocess.run(['pip', 'install'])
 
 # Install required packages
 subprocess.run(['pip', 'install', 'keras==2.15.0'])
