@@ -1,3 +1,10 @@
+# Update pip
+subprocess.run(['pip', 'install', '--upgrade', 'pip'])
+
+# Install required packages
+subprocess.run(['pip', 'install', 'keras==2.15.0'])
+
+
 import pickle
 import pandas as pd
 import numpy as np
